@@ -1,0 +1,20 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    # Un server NO debe actuar como cliente de sí mismo
+    register-with-eureka: false
+    fetch-registry: false
+    # (opcional) no hace falta defaultZone en un server puro
+    # serviceUrl:
+    #   defaultZone: http://eureka-server:8761/eureka/
+
+  instance:
+    # Para Docker, mejor hostname del servicio
+    hostname: eureka-server
+    prefer-ip-address: true
