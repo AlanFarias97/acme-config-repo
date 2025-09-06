@@ -2,12 +2,22 @@ spring:
   application:
     name: api-gateway
 
+  cloud:
+    gateway:
+      #enruta por nombre de servicio en Eureka
+      discovery:
+        locator:
+          enabled: true           # crea rutas /{serviceId}/** automáticamente (lowercase)
+          lowerCaseServiceId: true
+
 server:
   port: 8080
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka
-    register-with-eureka: true
-    fetch-registry: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway       # habilita /actuator/gateway/**
+  endpoint:
+    gateway:
+      enabled: true
