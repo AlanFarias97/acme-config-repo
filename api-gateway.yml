@@ -2,22 +2,20 @@ spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      #enruta por nombre de servicio en Eureka
-      discovery:
-        locator:
-          enabled: true           # crea rutas /{serviceId}/** automáticamente (lowercase)
-          lowerCaseServiceId: true
-
-server:
-  port: 8080
-
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway       # habilita /actuator/gateway/**
-  endpoint:
+        include: "health,info,gateway,refresh"   # <- necesarios para ver /actuator/gateway/* y refrescar sin reiniciar
+
+endpoint:
+  gateway:
+    enabled: true
+
+spring:
+  cloud:
     gateway:
-      enabled: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true   # para URLs tipo /identity-svc/**
