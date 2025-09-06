@@ -9,7 +9,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:dev-secret-local}
 eureka:
   client:
     service-url:
