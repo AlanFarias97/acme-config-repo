@@ -1,19 +1,15 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: optional:configserver:http://config-server:8888
+
 server:
   port: 8080
-
-spring:
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: identity
-          uri: lb://identity-svc
-          predicates: [ "Path=/identity/**" ]
-          filters: [ "StripPrefix=1" ]
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
