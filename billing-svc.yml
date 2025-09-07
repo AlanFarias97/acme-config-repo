@@ -1,0 +1,28 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://billing-db:5432/billing_local
+    username: billing
+    password: billing
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Usamos el MISMO secreto simétrico del identity-svc (HS256)
+          secret-key: ${SECURITY_JWT_SECRET:dev-secret-local}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
