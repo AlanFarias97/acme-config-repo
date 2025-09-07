@@ -9,10 +9,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  security:
-    jwt:
-      secret: ${SECURITY_JWT_SECRET:dev-secret-local}
-      expiration-seconds: ${SECURITY_JWT_EXPIRATION_SECONDS:3600}
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:dev-secret-local}
+    expiration-seconds: ${SECURITY_JWT_EXPIRATION_SECONDS:3600}
+
 eureka:
   client:
     service-url:
