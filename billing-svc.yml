@@ -4,13 +4,16 @@ server:
 spring:
   flyway:
     enable: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
   datasource:
     url: jdbc:postgresql://billing-db:5432/billing_local
     username: billing
     password: billing
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   security:
     oauth2:
       resourceserver:
