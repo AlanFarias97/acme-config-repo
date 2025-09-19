@@ -7,7 +7,6 @@ spring:
         connect-timeout: 1000
         response-timeout: 3s
 
-      # Rutas declarativas (además del locator)
       routes:
         - id: hr
           uri: lb://HR-SVC
@@ -22,10 +21,14 @@ spring:
             - name: Retry
               args:
                 retries: 2
-                methods: GET,POST
-                statuses: 502,503,504
+                methods:
+                  - GET
+                  - POST
+                statuses:
+                  - 502
+                  - 503
+                  - 504
 
-      # <- AQUÍ va el discovery locator
       discovery:
         locator:
           enabled: true
