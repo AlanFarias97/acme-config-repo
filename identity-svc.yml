@@ -1,7 +1,15 @@
 server:
   port: 8081
-
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 100
+      min-spare: 10
+      
 spring:
+  main:
+    lifecycle:
+      timeout-per-shutdown-phase: 20s
   datasource:
     url: jdbc:postgresql://identity-db:5432/identity_local
     username: identity
@@ -19,3 +27,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
+      
+http:
+  client:
+    connect-timeout: 1000   # ms
+    read-timeout: 2000
