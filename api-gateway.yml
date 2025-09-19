@@ -3,20 +3,42 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
-              predicates:
-                - name: Path
-                  args:
-                    pattern: "'/' + serviceId + '/**'"
-              filters:
-                - name: StripPrefix
-                  args:
-                    parts: 1
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 3s
+
+      # Rutas declarativas (además del locator)
+      routes:
+        - id: hr
+          uri: lb://HR-SVC
+          predicates:
+            - Path=/hr/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: cb-hr
+                fallbackUri: forward:/fallback/hr
+            - name: Retry
+              args:
+                retries: 2
+                methods: GET,POST
+                statuses: 502,503,504
+
+      # <- AQUÍ va el discovery locator
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          predicates:
+            - name: Path
+              args:
+                pattern: "'/' + serviceId + '/**'"
+          filters:
+            - name: StripPrefix
+              args:
+                parts: 1
+
 server:
   port: 8080
 
@@ -24,7 +46,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway   # habilita /actuator/gateway/**
+        include: health,info,gateway
 
 eureka:
   client:
