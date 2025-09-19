@@ -1,1 +1,33 @@
+server:
+  port: 8082
 
+spring:
+  flyway:
+    enable: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+  datasource:
+    url: jdbc:postgresql://hr-db:5432/hr_local
+    username: hr
+    password: hr
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Usamos el MISMO secreto simétrico del identity-svc (HS256)
+          secret-key: ${SECURITY_JWT_SECRET:dev-secret-local}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
