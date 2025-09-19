@@ -1,3 +1,7 @@
+spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
 logging:
   level:
     root: INFO
